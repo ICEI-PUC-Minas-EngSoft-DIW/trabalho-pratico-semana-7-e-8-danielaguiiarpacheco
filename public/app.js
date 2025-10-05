@@ -1,5 +1,3 @@
-// Dados dos itens de Fórmula 1
-
 const itensF1 = [
   {
     id: 1,
