@@ -5,7 +5,7 @@ const itensF1 = [
     imagem: "./img/ferrari-car1.jpg",
     descricaoCurta: "Modelos lendários que marcaram época na Fórmula 1.",
     descricaoLonga:
-      "A Fórmula 1 é repleta de carros que se tornaram lendas. Desde o McLaren MP4/4 de Ayrton Senna até o Ferrari F2004 de Michael Schumacher, cada um desses veículos representa uma era de domínio tecnológico e pilotagem excepcional.",
+      "A Fórmula 1 é repleta de carros que se tornaram lendas. Desde o McLaren MP4/4 de Ayrton Senna até o Ferrari F2004 de Michael Schumacher, cada um desses veículos representa uma era de domínio tecnológico e pilotagem excepcional. Estes carros não apenas venceram corridas, mas também capturaram a imaginação dos fãs ao redor do mundo.",
     especificacoes: {
       motor: "V6 Turbo Híbrido",
       potencia: "Mais de 1000 cv",
@@ -24,7 +24,7 @@ const itensF1 = [
     imagem: "./img/helmet1.jpg",
     descricaoCurta: "Designs que contam histórias de velocidade e coragem.",
     descricaoLonga:
-      "Os capacetes na F1 são mais do que equipamentos de segurança - são telas que contam histórias de identidade, patrocínio e personalidade.",
+      "Os capacetes na F1 são mais do que equipamentos de segurança - são telas que contam histórias de identidade, patrocínio e personalidade. Desde os designs simples dos anos 50 até as complexas obras de arte modernas, cada capacete tem uma história única para contar sobre seu piloto e sua jornada no esporte.",
     especificacoes: {
       material: "Fibra de carbono e kevlar",
       peso: "Aproximadamente 1.2 kg",
@@ -43,7 +43,7 @@ const itensF1 = [
     imagem: "./img/psita-monaco1.jpg",
     descricaoCurta: "Os circuitos mais desafiadores e icônicos do mundo.",
     descricaoLonga:
-      "Monaco, Silverstone, Monza, Spa-Francorchamps - nomes que ecoam através da história da F1.",
+      "Monaco, Silverstone, Monza, Spa-Francorchamps - nomes que ecoam através da história da F1. Estes circuitos testam os limites dos carros e a coragem dos pilotos. Cada curva tem sua própria lenda, cada reta sua própria história de glória e tragédia.",
     especificacoes: {
       extensao: "Varia de 3.3km a 7km",
       curvas: "De 12 a 20 curvas por circuito",
@@ -62,7 +62,7 @@ const itensF1 = [
     imagem: "./img/peças-car-f1.jpg",
     descricaoCurta: "Componentes que definem performance e inovação.",
     descricaoLonga:
-      "A engenharia da F1 está na vanguarda da tecnologia automotiva. Cada componente representa anos de pesquisa e desenvolvimento.",
+      "A engenharia da F1 está na vanguarda da tecnologia automotiva. Cada componente, do motor à aerodinâmica, representa anos de pesquisa e desenvolvimento. Estas peças não apenas impulsionam os carros a velocidades impressionantes, mas também frequentemente encontram seu caminho para carros de rua, demonstrando o legado tecnológico da F1.",
     especificacoes: {
       material: "Fibra de carbono e titânio",
       tolerancia: "Precisão de até 0.001mm",
@@ -100,8 +100,72 @@ function carregarCards() {
   }
 }
 
+function carregarDetalhes() {
+  const container = document.getElementById("detalhes-container");
+
+  if (container) {
+    const urlParams = new URLSearchParams(window.location.search);
+    const itemId = parseInt(urlParams.get("id"));
+
+    const item = itensF1.find((i) => i.id === itemId);
+
+    if (item) {
+      container.innerHTML = `
+                <div class="row">
+                    <div class="col-12 col-md-6 mb-4">
+                        <img src="${
+                          item.imagem
+                        }" class="img-fluid rounded" alt="${
+        item.titulo
+      }" style="max-height: 400px; object-fit: cover" />
+                    </div>
+                    <div class="col-12 col-md-6">
+                        <h1 class="text-danger mb-3">${item.titulo}</h1>
+                        <p class="lead">${item.descricaoLonga}</p>
+                        
+                        <h4 class="text-warning mt-4">Especificações Técnicas</h4>
+                        <ul class="list-unstyled">
+                            ${Object.entries(item.especificacoes)
+                              .map(
+                                ([chave, valor]) => `
+                                <li class="mb-2"><strong class="text-info">${
+                                  chave.charAt(0).toUpperCase() + chave.slice(1)
+                                }:</strong> <span class="text-light">${valor}</span></li>
+                            `
+                              )
+                              .join("")}
+                        </ul>
+                        
+                        <h4 class="text-warning mt-4">Curiosidades</h4>
+                        <ul class="list-unstyled">
+                            ${item.curiosidades
+                              .map(
+                                (curiosidade) => `
+                                <li class="mb-2"><span class="text-light">• ${curiosidade}</span></li>
+                            `
+                              )
+                              .join("")}
+                        </ul>
+                    </div>
+                </div>
+            `;
+    } else {
+      container.innerHTML = `
+                <div class="text-center">
+                    <h2 class="text-danger">Item não encontrado</h2>
+                    <p>O item solicitado não existe em nossa base de dados.</p>
+                </div>
+            `;
+    }
+  }
+}
+
 document.addEventListener("DOMContentLoaded", function () {
   if (document.getElementById("cards-container")) {
     carregarCards();
+  }
+
+  if (document.getElementById("detalhes-container")) {
+    carregarDetalhes();
   }
 });
